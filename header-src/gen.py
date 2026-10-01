@@ -132,7 +132,7 @@ lanes_svg = "".join(f'<path class="lane l{i}" pathLength="100" d="{lane_path(dy)
 
 svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img"
   aria-labelledby="t d">
-<title id="t">Peyton. I build software at night by directing AI agents.</title>
+<title id="t">Peyton. I build the software I use every day.</title>
 <desc id="d">A transit strip map. One red line runs through three stations: Decide (what gets built), Check (with my own eyes), Ship it (my call), then a stretch where every test runs in a fresh VM, ending at Live. Between Decide and Check, six thin tracks fan out and rejoin: the agents build it.</desc>
 <style>:root{{--f:{"-%.2fs" % FREEZE if FREEZE is not None else "0s"}}}{"svg *{animation-play-state:paused !important}" if FREEZE is not None else ""}{css}</style>
 
@@ -144,7 +144,7 @@ svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{
 
 <!-- name + his words -->
 <text class="h name" x="126" y="118">PEYTON</text>
-<text class="q tag" x="128" y="152">I build software at night by directing AI agents.</text>
+<text class="q tag" x="128" y="152">I build the software I use every day.</text>
 
 <!-- tab, as on the site's bar -->
 <rect x="{W-14-150}" y="14" width="150" height="38" fill="{INK}"/>
