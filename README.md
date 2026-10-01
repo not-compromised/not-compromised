@@ -16,19 +16,39 @@
 
 ---
 
-I'm self-taught, in Sioux Falls, SD. In February I asked Grok how to set up a server and typed every command it gave me by hand. Eight months later, one mini PC at home runs 20+ services, my own CI, a nightly security audit, and the AI agents I direct from my desk and my phone.
+I'm not an experienced developer. In February I asked Grok how to set up a server, and typed every command it gave me by hand.
 
-I don't write most of my code. I decide what gets built, check it with my own eyes, and say ship it.
+What I'm good at is picking things up fast and working from first principles. When something breaks or bugs me, I don't patch it and move on. I ask why it happened, what would make it impossible, and build that.
 
-## What I added on top
+## Eight months
 
-The process is the standard stuff: branches, review, CI, rollbacks. I got there one annoyance at a time. What's mine is how the agents are run.
+| When | Version | What changed |
+|---|---|---|
+| Feb | v1 | Grok in a chat window. I typed every command. |
+| Feb | v2 | Claude Code. The agent types, I say what I want. |
+| Feb | v3 | A team of bots on chat. Nobody read their reports, me included. |
+| Jun | v4 | Back after a month off, going ham. 296 commits in June, 1019 in July. |
+| Jul | v5 | T3 Code: many threads, any machine, one shared context. |
+| Aug | v6 | Omarchy: the desktop became something I just ask for. |
+| Sep | v7 | Voice. An idea comes out as a rant, and the rant is the prompt. |
 
-- **One context, every agent.** My rules for how work gets done live in one private repo. Every machine pulls it every few minutes, and Claude, Codex, Grok and OpenCode all read the same thing.
-- **A bad agent run is a context bug.** When an agent screws up, I ask what threw it off: my context, missing context, the model, or the framework. The fix goes into the context, and every agent follows it from then on.
-- **Models check each other.** A different model reviews each change and can't edit anything. A second one, with none of the builder's context, reads diffs for security holes. Anything touching money gets its own review.
-- **Agents get their own desktop.** They can take a screen, keyboard and mouse and drive real apps.
-- **Bugs become rules in my own words.** Each bug I hit becomes an invariant, something the app must always get right, stated in plain English. Rolling out one app at a time. None has merged yet.
+Every version fixed what bugged me about the last one.
+
+## First principles, in practice
+
+**The first Rocket League map worked, and it was bad.** More attempts weren't going to fix it, so I asked what makes a good map. My take after the first one: "yeah maybe our previous map wasnt too big it just wasn't intricate enough". The agent took a well-built community map apart in the editor, read Psyonix's standard arena straight out of the game, and now fires rays at our field and Psyonix's collision to check they match. [How the maps got good.](https://pmserver.us/rocket-league)
+
+**When an agent gets something wrong, I don't just retry.** I ask what threw it off: my context, missing context, the model, or the framework. The fix goes into one context repo that every machine pulls every few minutes, so every agent (Claude, Codex, Grok, OpenCode) follows it from then on.
+
+**A check that says "all clear" can be lying.** For two weeks my nightly security digest 404'd and never reached my phone, and its own self-test passed the whole time. Now I ask of every check what it looks like when it didn't run. A scan that didn't run never shows as all clear, and an audit in my map toolkit that passed with every mesh swapped for the wrong one got caught by a second model.
+
+**Do I need to learn to code line by line?** I went back over my bugs to find out. About two-thirds of the ones you could see in code needed someone who knew what the money and data must always do, not someone who knew syntax. So that's what I'm learning. Each bug becomes an invariant for that app, written in my own words. It's rolling out one app at a time, and none has merged yet.
+
+**I wanted to know how I actually work, not how I think I work.** So I had agents mine 740 of my own messages to them, and I change my setup from what that turns up.
+
+## How I build
+
+I decide what gets built, check it with my own eyes, and say ship it. Agents write the code. Every change runs every test in a throwaway VM on CI I built myself, and nothing red merges.
 
 <details>
 <summary>The full loop, from idea to live</summary>
@@ -38,16 +58,7 @@ The process is the standard stuff: branches, review, CI, rollbacks. I got there 
 
 </details>
 
-## What it's caught
-
-The worst bugs are the ones where everything looks fine.
-
-- For two weeks my nightly security digest 404'd and never reached my phone, and its own self-test passed the whole time. The same fix found a report section that had been silently dropped, because the list of watched files had outgrown Linux's argument-length limit. Now the self-test fails on both, and a scan that didn't run never shows as all clear.
-- An audit in my Rocket League map toolkit still passed with every mesh swapped for the wrong one. A second model caught it.
-- My CI gives every run a throwaway VM with no passwords or real data, and it does the merging, so nothing red lands. Since it went live on Sep 20, 38 of 239 runs caught a problem before merge (as of Sep 30; the badges up top are live).
-- Rollbacks get rehearsed on Finance, Dashboard and Tokdash: start the old version, upgrade, undo. The data has to come back byte for byte.
-
-What this doesn't prove: some of the UI is rough, and none of it is finished. What software is?
+What this doesn't prove: I don't write most of it line by line, some of the UI is rough, and none of it is finished. What software is?
 
 ## What came out of it
 
@@ -98,18 +109,6 @@ Also: **Tokdash** (my AI usage meter, a fork of Jingbiao Mei's), my **Omarchy** 
 |---|---|
 | [ground-up](https://github.com/not-compromised/ground-up) | A learning system you run with your coding agents, so AI-built repos stay yours to read |
 | [skills-mcp](https://github.com/not-compromised/skills-mcp) | Some of my agent skills and MCP servers |
-
-## How it got here
-
-| When | Version | What changed |
-|---|---|---|
-| Feb | v1 | Grok in a chat window. I typed every command. |
-| Feb | v2 | Claude Code. The agent types, I say what I want. |
-| Feb | v3 | A team of bots on chat. Nobody read their reports, me included. |
-| Jun | v4 | Back after a month off, going ham. 296 commits in June, 1019 in July. |
-| Jul | v5 | T3 Code: many threads, any machine, one shared context. |
-| Aug | v6 | Omarchy: the desktop became something I just ask for. |
-| Sep | v7 | Voice. An idea comes out as a rant, and the rant is the prompt. |
 
 <div align="center">
 <sub>Security habits from a year of Cyber Operations at Dakota State University. Full story at <a href="https://pmserver.us/evolution">pmserver.us/evolution</a>.</sub>
