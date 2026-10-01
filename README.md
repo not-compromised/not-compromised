@@ -16,15 +16,38 @@
 
 ---
 
-I'm self-taught, in Sioux Falls, SD. In February I asked Grok how to set up a server and typed every command it gave me by hand. Now one mini PC at home runs 20+ services, my own CI, a nightly security audit, and a crew of AI agents I direct from my desk and my phone.
+I'm self-taught, in Sioux Falls, SD. In February I asked Grok how to set up a server and typed every command it gave me by hand. Eight months later, one mini PC at home runs 20+ services, my own CI, a nightly security audit, and the AI agents I direct from my desk and my phone.
 
-I don't write most of my code. The part I'm learning to own is what each app must always get right, written down in my own words, one app at a time.
+I don't write most of my code. I decide what gets built, check it with my own eyes, and say ship it.
 
-## The loop
+## What I added on top
+
+The process is the standard stuff: branches, review, CI, rollbacks. I got there one annoyance at a time. What's mine is how the agents are run.
+
+- **One context, every agent.** My rules for how work gets done live in one private repo. Every machine pulls it every few minutes, and Claude, Codex, Grok and OpenCode all read the same thing.
+- **A bad agent run is a context bug.** When an agent screws up, I ask what threw it off: my context, missing context, the model, or the framework. The fix goes into the context, and every agent follows it from then on.
+- **Models check each other.** A different model reviews each change and can't edit anything. A second one, with none of the builder's context, reads diffs for security holes. Anything touching money gets its own review.
+- **Agents get their own desktop.** They can take a screen, keyboard and mouse and drive real apps.
+- **Bugs become rules in my own words.** Each bug I hit becomes an invariant, something the app must always get right, stated in plain English. Rolling out one app at a time. None has merged yet.
+
+<details>
+<summary>The full loop, from idea to live</summary>
+<br>
 
 <img src="./loop.svg" alt="The loop. Idea or issue: a voice rant, or a bug I hit using the app. Grill: one question at a time. Build: on a branch, never the live app. Try it: a preview copy, plus a different model's review. Ship it? My call; no goes back to Build. Fresh VM: every test, in a throwaway VM. Green? No goes back to Build: the agent reads the failure, fixes it and runs it again. Rollback rehearsal, only on the apps it's set up for: Finance, Dashboard, Tokdash. Live.">
 
-When an agent screws up, I ask what threw it off: my context, missing context, the model, or the framework. The fix goes into one shared context repo that every machine pulls every few minutes, so Claude, Codex, Grok and OpenCode all follow it from then on.
+</details>
+
+## What it's caught
+
+The worst bugs are the ones where everything looks fine.
+
+- For two weeks my nightly security digest 404'd and never reached my phone, and its own self-test passed the whole time. The same fix found a report section that had been silently dropped, because the list of watched files had outgrown Linux's argument-length limit. Now the self-test fails on both, and a scan that didn't run never shows as all clear.
+- An audit in my Rocket League map toolkit still passed with every mesh swapped for the wrong one. A second model caught it.
+- My CI gives every run a throwaway VM with no passwords or real data, and it does the merging, so nothing red lands. Since it went live on Sep 20, 38 of 239 runs caught a problem before merge (as of Sep 30; the badges up top are live).
+- Rollbacks get rehearsed on Finance, Dashboard and Tokdash: start the old version, upgrade, undo. The data has to come back byte for byte.
+
+What this doesn't prove: some of the UI is rough, and none of it is finished. What software is?
 
 ## What came out of it
 
@@ -68,15 +91,6 @@ Password manager, file sync, photos, a Discord-like chat the server talks to me 
 </table>
 
 Also: **Tokdash** (my AI usage meter, a fork of Jingbiao Mei's), my **Omarchy** desktop setup, and a crypto **trader bot** that paper-trades to find out if a strategy really works.
-
-## How I know it works
-
-- **I built my own CI.** Every change runs every test in a throwaway VM with no passwords or real data. The CI does the merging, so nothing red lands.
-- **Rollbacks get rehearsed.** Start the old version, upgrade, undo. The data has to come back byte for byte.
-- **The server audits itself every night.** 31 areas, from container CVEs to leaked keys to whether backups restore. An AI explains each finding in plain English, and anything high pings my phone. Every Sunday the scanner tests itself, so a scan that didn't run never shows as all clear.
-- **Fresh eyes.** A second AI with none of the first one's context reviews diffs for security holes. Anything touching money gets its own review.
-
-What this doesn't prove: some of the UI is rough, and none of it is finished. What software is?
 
 ## Public repos
 
