@@ -22,31 +22,9 @@ I don't write most of my code. The part I'm learning to own is what each app mus
 
 ## The loop
 
-```mermaid
-flowchart LR
-    A[Idea / issue<br><sub>voice rant, or a bug<br>I hit using the app</sub>] --> B[Grill<br><sub>one question at a time</sub>]
-    B --> C[Build<br><sub>on a branch, never live</sub>]
-    C --> D[Try it<br><sub>preview copy + a<br>different model reviews</sub>]
-    D --> E{Ship it?}
-    E -- no --> C
-    E -- yes --> F[Fresh VM<br><sub>every test, real browser</sub>]
-    F --> G{Green?}
-    G -- no --> C
-    G -- yes --> H[Rollback rehearsal] --> I[Live]
-```
+<img src="./loop.svg" alt="The loop. Idea or issue: a voice rant, or a bug I hit using the app. Grill: one question at a time. Build: on a branch, never the live app. Try it: a preview copy, plus a different model's review. Ship it? My call; no goes back to Build. Fresh VM: every test, in a throwaway VM. Green? No goes back to Build: the agent reads the failure, fixes it and runs it again. Rollback rehearsal, only on the apps it's set up for: Finance, Dashboard, Tokdash. Live.">
 
 When an agent screws up, I ask what threw it off: my context, missing context, the model, or the framework. The fix goes into one shared context repo that every machine pulls every few minutes, so Claude, Codex, Grok and OpenCode all follow it from then on.
-
-## The crew
-
-| Agent | Job |
-|---|---|
-| Claude Opus | Main builder |
-| Claude Fable | Second opinion, reviews other models' work |
-| Codex | Builder and deep reviewer |
-| Grok | Outside voice on reviews |
-| astra | "it usually comes up with really good ideas for projects/features/tools, but it sucks at implementation" |
-| Local model | Small private jobs on my desktop |
 
 ## What came out of it
 
@@ -89,7 +67,7 @@ Password manager, file sync, photos, a Discord-like chat the server talks to me 
 </tr>
 </table>
 
-Also: **Tokdash** (my AI usage meter, a fork of Jingbiao Mei's), my **Omarchy** desktop setup, a crypto **trader bot** that paper-trades to find out if a strategy really works, and an ESP32 alarm that only stops after I finish a short coding session.
+Also: **Tokdash** (my AI usage meter, a fork of Jingbiao Mei's), my **Omarchy** desktop setup, and a crypto **trader bot** that paper-trades to find out if a strategy really works.
 
 ## How I know it works
 
@@ -109,15 +87,15 @@ What this doesn't prove: some of the UI is rough, and none of it is finished. Wh
 
 ## How it got here
 
-```
-Feb   v1  Grok in a chat window. I typed every command.
-Feb   v2  Claude Code. The agent types, I say what I want.
-Feb   v3  A team of bots on chat. Nobody read their reports, me included.
-Jun   v4  Back after a month off, going ham. 296 commits in June, 1019 in July.
-Jul   v5  T3 Code: many threads, any machine, one shared context.
-Aug   v6  Omarchy: the desktop became something I just ask for.
-Sep   v7  Voice. An idea comes out as a rant, and the rant is the prompt.
-```
+| When | Version | What changed |
+|---|---|---|
+| Feb | v1 | Grok in a chat window. I typed every command. |
+| Feb | v2 | Claude Code. The agent types, I say what I want. |
+| Feb | v3 | A team of bots on chat. Nobody read their reports, me included. |
+| Jun | v4 | Back after a month off, going ham. 296 commits in June, 1019 in July. |
+| Jul | v5 | T3 Code: many threads, any machine, one shared context. |
+| Aug | v6 | Omarchy: the desktop became something I just ask for. |
+| Sep | v7 | Voice. An idea comes out as a rant, and the rant is the prompt. |
 
 <div align="center">
 <sub>Security habits from a year of Cyber Operations at Dakota State University. Full story at <a href="https://pmserver.us/evolution">pmserver.us/evolution</a>.</sub>
